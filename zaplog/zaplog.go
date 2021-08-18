@@ -158,32 +158,38 @@ func Errorf(template string, args ...interface{}) {
 
 // DPanic ()
 func DPanic(args ...interface{}) {
+	fmt.Println(args...)
 	theZap.DPanic(args...)
 }
 
 // DPanicf ()
 func DPanicf(template string, args ...interface{}) {
-	theZap.DPanicf(template, args...)
+	fmt.Printf(template, args...)
+	theZap.DPanicf(`[D]`+template, args...)
 }
 
 // Panic ()
 func Panic(args ...interface{}) {
+	fmt.Println(args...)
 	theZap.Panic(args...)
 }
 
 // Panicf ()
 func Panicf(template string, args ...interface{}) {
-	theZap.Panicf(template, args...)
+	fmt.Printf(template, args...)
+	theZap.Panicf(`[P]`+template, args...)
 }
 
 // Fatal ()
 func Fatal(args ...interface{}) {
+	fmt.Println(args...)
 	theZap.Fatal(args...)
 }
 
 // Fatalf ()
 func Fatalf(template string, args ...interface{}) {
-	theZap.Fatalf(template, args...)
+	fmt.Printf(template, args...)
+	theZap.Fatalf(`[F]`+template, args...)
 }
 
 // Flush ()
