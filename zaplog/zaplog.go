@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"time"
 
+	"github.com/yangtizi/log/color"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -152,7 +153,9 @@ func Error(args ...interface{}) {
 
 // Errorf ()
 func Errorf(template string, args ...interface{}) {
+	fmt.Println(color.Red)
 	fmt.Printf(template, args...)
+	fmt.Println(color.Reset)
 	theZap.Errorf("[x] "+template, args...)
 }
 
@@ -164,8 +167,10 @@ func DPanic(args ...interface{}) {
 
 // DPanicf ()
 func DPanicf(template string, args ...interface{}) {
+	fmt.Println(color.Yellow)
 	fmt.Printf(template, args...)
-	theZap.DPanicf(`[D]`+template, args...)
+	fmt.Println(color.Reset)
+	theZap.DPanicf(`[D] `+template, args...)
 }
 
 // Panic ()
@@ -176,8 +181,10 @@ func Panic(args ...interface{}) {
 
 // Panicf ()
 func Panicf(template string, args ...interface{}) {
+	fmt.Println(color.RedBg)
 	fmt.Printf(template, args...)
-	theZap.Panicf(`[P]`+template, args...)
+	fmt.Println(color.Reset)
+	theZap.Panicf(`[P] `+template, args...)
 }
 
 // Fatal ()
@@ -188,8 +195,10 @@ func Fatal(args ...interface{}) {
 
 // Fatalf ()
 func Fatalf(template string, args ...interface{}) {
+	fmt.Println(color.YellowBg)
 	fmt.Printf(template, args...)
-	theZap.Fatalf(`[F]`+template, args...)
+	fmt.Println(color.Reset)
+	theZap.Fatalf(`[F] `+template, args...)
 }
 
 // Flush ()
