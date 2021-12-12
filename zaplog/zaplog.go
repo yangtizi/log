@@ -64,7 +64,7 @@ func init() {
 		fmt.Println("[√] zaplog 正常保存日志")
 		return
 	}
-	NewSugar(autologfilename(), 50, true, true, 60, "2006-01-02 15:04:05.000", DebugLevel)
+	NewSugar(autologfilename(), 500, true, true, 60, "2006-01-02 15:04:05.000", DebugLevel)
 
 }
 
@@ -102,46 +102,73 @@ func NewSugar(strFilename string, nMaxSizeMB int, bLocalTime bool, bCompress boo
 
 // Printf 为了兼容
 func Printf(template string, args ...interface{}) {
+	fmt.Println(color.Green)
+	fmt.Printf(template, args...)
+	fmt.Println(color.Reset)
 	theZap.Debugf(template, args...)
 }
 
 // Print 为了兼容
 func Print(args ...interface{}) {
-	theZap.Info(args...)
+	fmt.Println(color.Green)
+	fmt.Println(args...)
+	fmt.Println(color.Reset)
+	Println(args...)
 }
 
 // Println 为了兼容
 func Println(args ...interface{}) {
+	fmt.Println(color.Green)
+	fmt.Println(args...)
+	fmt.Println(color.Reset)
 	theZap.Info(args...)
 }
 
 // Debug ()
 func Debug(args ...interface{}) {
+	fmt.Println(color.Blue)
+	fmt.Println(args...)
+	fmt.Println(color.Reset)
 	theZap.Debug(args...)
 }
 
 // Debugf ()
 func Debugf(template string, args ...interface{}) {
+	fmt.Println(color.Blue)
+	fmt.Printf(template, args...)
+	fmt.Println(color.Reset)
 	theZap.Debugf("[+] "+template, args...)
 }
 
 // Info ()
 func Info(args ...interface{}) {
+	fmt.Println(color.Cyan)
+	fmt.Println(args...)
+	fmt.Println(color.Reset)
 	theZap.Info(args...)
 }
 
 // Infof ()
 func Infof(template string, args ...interface{}) {
+	fmt.Println(color.Cyan)
+	fmt.Printf("[√] "+template, args...)
+	fmt.Println(color.Reset)
 	theZap.Infof("[√] "+template, args...)
 }
 
 // Warn ()
 func Warn(args ...interface{}) {
+	fmt.Println(color.Yellow)
+	fmt.Println(args...)
+	fmt.Println(color.Reset)
 	theZap.Warn(args...)
 }
 
 // Warnf ()
 func Warnf(template string, args ...interface{}) {
+	fmt.Println(color.Yellow)
+	fmt.Printf("[!] "+template, args...)
+	fmt.Println(color.Reset)
 	theZap.Warnf("[!] "+template, args...)
 }
 
@@ -154,7 +181,7 @@ func Error(args ...interface{}) {
 // Errorf ()
 func Errorf(template string, args ...interface{}) {
 	fmt.Println(color.Red)
-	fmt.Printf(template, args...)
+	fmt.Printf("[x] "+template, args...)
 	fmt.Println(color.Reset)
 	theZap.Errorf("[x] "+template, args...)
 }
@@ -167,9 +194,9 @@ func DPanic(args ...interface{}) {
 
 // DPanicf ()
 func DPanicf(template string, args ...interface{}) {
-	fmt.Println(color.Yellow)
+	fmt.Println(`[D] ` + color.Yellow)
 	fmt.Printf(template, args...)
-	fmt.Println(color.Reset)
+	fmt.Println(`[D] ` + color.Reset)
 	theZap.DPanicf(`[D] `+template, args...)
 }
 
