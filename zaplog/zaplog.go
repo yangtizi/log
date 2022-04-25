@@ -61,7 +61,6 @@ func autologfilename() string {
 // NewZapLog 得到新的ZapLog
 func init() {
 	if theZap != nil {
-		fmt.Println("[√] zaplog 正常保存日志")
 		return
 	}
 	NewSugar(autologfilename(), 500, true, true, 60, "2006-01-02 15:04:05.000", DebugLevel)
@@ -82,8 +81,6 @@ func NewSugar(strFilename string, nMaxSizeMB int, bLocalTime bool, bCompress boo
 		theZap.Sync()
 		theZap = nil
 	}
-
-	fmt.Println("[√] zaplog 正常保存日志", strFilename)
 	syncWriter := zapcore.AddSync(&lumberjack.Logger{
 		Filename:  strFilename,
 		MaxSize:   nMaxSizeMB,
