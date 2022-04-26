@@ -14,7 +14,7 @@ import (
 )
 
 var mp = map[string]*TZaplog{}
-var mutexLock *sync.RWMutex
+var mutexLock sync.RWMutex
 
 func Map(strMap string) *TZaplog {
 	mutexLock.RLock()
@@ -34,7 +34,16 @@ func Map(strMap string) *TZaplog {
 	return v
 }
 
-//
+// NewSugar 新建一个糖
+// usage : NewSugar(autologfilename(), 50, true, true, 60, "2006-01-02 15:04:05.000", DebugLevel)
+// @strFilename 保存的文件名
+// @nMaxSizeMB 截取的文件大小, 每隔多少MB截取
+// @bLocalTime 是否使用本地时间
+// @bCompress 是否压缩
+// @nMaxAge 文件最多保存多少天
+// @strTimeFormat 时间格式
+// @nLevel 日志的保存等级
+
 func NewZaplog(strFilename string, nMaxSizeMB int, bLocalTime bool, bCompress bool, nMaxAge int, strTimeFormat string, nLevel int8) *TZaplog {
 	p := &TZaplog{}
 	p.init(strFilename, nMaxSizeMB, bLocalTime, bCompress, nMaxAge, strTimeFormat, nLevel)
@@ -80,7 +89,7 @@ func (m *TZaplog) Print(args ...interface{}) {
 	fmt.Println(color.Green)
 	fmt.Println(args...)
 	fmt.Println(color.Reset)
-	Println(args...)
+	m.Println(args...)
 }
 
 // Println 为了兼容
@@ -197,5 +206,10 @@ func (m *TZaplog) Fatalf(template string, args ...interface{}) {
 
 // Flush ()
 func (m *TZaplog) Flush() {
+	m.log.Sync()
+}
+
+// Flush ()
+func (m *TZaplog) Sync() {
 	m.log.Sync()
 }
