@@ -1,13 +1,11 @@
 package zaplog
 
 import (
-	"fmt"
 	"os"
 	"sync"
 	"time"
 
 	"github.com/yangtizi/go/ioutils"
-	"github.com/yangtizi/log/color"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -25,7 +23,7 @@ func Map(strMap string) *TZaplog {
 		return v
 	}
 
-	v = NewZaplog("./log/"+strMap+".log", 500, true, true, 60, "2006-01-02 15:04:05.000", DebugLevel)
+	v = NewZaplog("./log/"+strMap+".log", 50, true, true, 60, "2006-01-02 15:04:05.000", DebugLevel)
 
 	mutexLock.Lock()
 	mp[strMap] = v
@@ -50,7 +48,6 @@ func NewZaplog(strFilename string, nMaxSizeMB int, bLocalTime bool, bCompress bo
 	return p
 }
 
-//
 type TZaplog struct {
 	log *zap.SugaredLogger
 }
@@ -78,129 +75,129 @@ func (m *TZaplog) init(strFilename string, nMaxSizeMB int, bLocalTime bool, bCom
 
 // Printf 为了兼容
 func (m *TZaplog) Printf(template string, args ...interface{}) {
-	fmt.Println(color.Green)
-	fmt.Printf(template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Green)
+	// fmt.Printf(template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Debugf(template, args...)
 }
 
 // Print 为了兼容
 func (m *TZaplog) Print(args ...interface{}) {
-	fmt.Println(color.Green)
-	fmt.Println(args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Green)
+	// fmt.Println(args...)
+	// fmt.Println(color.Reset)
 	m.Println(args...)
 }
 
 // Println 为了兼容
 func (m *TZaplog) Println(args ...interface{}) {
-	fmt.Println(color.Green)
-	fmt.Println(args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Green)
+	// fmt.Println(args...)
+	// fmt.Println(color.Reset)
 	m.log.Info(args...)
 }
 
 // Debug ()
 func (m *TZaplog) Debug(args ...interface{}) {
-	fmt.Println(color.Blue)
-	fmt.Println(args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Blue)
+	// fmt.Println(args...)
+	// fmt.Println(color.Reset)
 	m.log.Debug(args...)
 }
 
 // Debugf ()
 func (m *TZaplog) Debugf(template string, args ...interface{}) {
-	fmt.Println(color.Blue)
-	fmt.Printf(template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Blue)
+	// fmt.Printf(template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Debugf("[+] "+template, args...)
 }
 
 // Info ()
 func (m *TZaplog) Info(args ...interface{}) {
-	fmt.Println(color.Cyan)
-	fmt.Println(args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Cyan)
+	// fmt.Println(args...)
+	// fmt.Println(color.Reset)
 	m.log.Info(args...)
 }
 
 // Infof ()
 func (m *TZaplog) Infof(template string, args ...interface{}) {
-	fmt.Println(color.Cyan)
-	fmt.Printf("[√] "+template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Cyan)
+	// fmt.Printf("[√] "+template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Infof("[√] "+template, args...)
 }
 
 // Warn ()
 func (m *TZaplog) Warn(args ...interface{}) {
-	fmt.Println(color.Yellow)
-	fmt.Println(args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Yellow)
+	// fmt.Println(args...)
+	// fmt.Println(color.Reset)
 	m.log.Warn(args...)
 }
 
 // Warnf ()
 func (m *TZaplog) Warnf(template string, args ...interface{}) {
-	fmt.Println(color.Yellow)
-	fmt.Printf("[!] "+template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Yellow)
+	// fmt.Printf("[!] "+template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Warnf("[!] "+template, args...)
 }
 
 // Error ()
 func (m *TZaplog) Error(args ...interface{}) {
-	fmt.Println(args...)
+	// fmt.Println(args...)
 	m.log.Error(args...)
 }
 
 // Errorf ()
 func (m *TZaplog) Errorf(template string, args ...interface{}) {
-	fmt.Println(color.Red)
-	fmt.Printf("[x] "+template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.Red)
+	// fmt.Printf("[x] "+template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Errorf("[x] "+template, args...)
 }
 
 // DPanic ()
 func (m *TZaplog) DPanic(args ...interface{}) {
-	fmt.Println(args...)
+	// fmt.Println(args...)
 	m.log.DPanic(args...)
 }
 
 // DPanicf ()
 func (m *TZaplog) DPanicf(template string, args ...interface{}) {
-	fmt.Println(`[D] ` + color.Yellow)
-	fmt.Printf(template, args...)
-	fmt.Println(`[D] ` + color.Reset)
+	// fmt.Println(`[D] ` + color.Yellow)
+	// fmt.Printf(template, args...)
+	// fmt.Println(`[D] ` + color.Reset)
 	m.log.DPanicf(`[D] `+template, args...)
 }
 
 // Panic ()
 func (m *TZaplog) Panic(args ...interface{}) {
-	fmt.Println(args...)
+	// fmt.Println(args...)
 	m.log.Panic(args...)
 }
 
 // Panicf ()
 func (m *TZaplog) Panicf(template string, args ...interface{}) {
-	fmt.Println(color.RedBg)
-	fmt.Printf(template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.RedBg)
+	// fmt.Printf(template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Panicf(`[P] `+template, args...)
 }
 
 // Fatal ()
 func (m *TZaplog) Fatal(args ...interface{}) {
-	fmt.Println(args...)
+	// fmt.Println(args...)
 	m.log.Fatal(args...)
 }
 
 // Fatalf ()
 func (m *TZaplog) Fatalf(template string, args ...interface{}) {
-	fmt.Println(color.YellowBg)
-	fmt.Printf(template, args...)
-	fmt.Println(color.Reset)
+	// fmt.Println(color.YellowBg)
+	// fmt.Printf(template, args...)
+	// fmt.Println(color.Reset)
 	m.log.Fatalf(`[F] `+template, args...)
 }
 
